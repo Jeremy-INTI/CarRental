@@ -267,7 +267,7 @@ public class CustomerList extends javax.swing.JFrame {
         try{
             //open connection
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CarRentalSystem?useSSL=false&serverTimezone=UTC", "root", "Mandatary#123");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CarRentalSystem?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "sa123");
            
             //Insert customer data in database
              String sql = "INSERT INTO customerlist (CusID, CustomerName, ContactNumber, Email) VALUES (?, ?, ?, ?)";
@@ -321,11 +321,7 @@ public class CustomerList extends javax.swing.JFrame {
         //open connection
        try {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/CarRentalSystem?useSSL=false&serverTimezone=UTC",
-            "root", 
-            "Mandatary#123"
-        );
+                  Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CarRentalSystem?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "sa123");
 
         Statement st = con.createStatement();
         String sql = "SELECT * FROM customerlist";
@@ -401,11 +397,7 @@ public class CustomerList extends javax.swing.JFrame {
     try {
         // 1. 连接数据库
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/CarRentalSystem?useSSL=false&serverTimezone=UTC",
-            "root",
-            "Mandatary#123"
-        );
+                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CarRentalSystem?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "sa123");
 
         // 2. 查询所有数据
         String sql = "SELECT * FROM customerlist";
