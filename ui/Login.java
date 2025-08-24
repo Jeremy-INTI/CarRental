@@ -1,6 +1,15 @@
 
-package carrental;
-    import javax.swing.JOptionPane;
+package carrental.ui;
+
+import carrental.util.DatabaseConnection;
+import carrental.model.*;
+import carrental.dao.*;
+import carrental.ui.*;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -29,7 +38,6 @@ public class Login extends javax.swing.JFrame {
 
         Message1 = new javax.swing.JLabel();
         Username = new javax.swing.JTextField();
-        AdminLogin = new javax.swing.JButton();
         UserLogin = new javax.swing.JButton();
         LoginPage = new javax.swing.JLabel();
         Message2 = new javax.swing.JLabel();
@@ -42,58 +50,38 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Message1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Message1.setForeground(new java.awt.Color(0, 0, 0));
         Message1.setText("Username");
         Message1.setPreferredSize(new java.awt.Dimension(65, 32));
         getContentPane().add(Message1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 90, 30));
 
-        Username.setBackground(new java.awt.Color(255, 255, 255));
         Username.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Username.setForeground(new java.awt.Color(0, 0, 0));
         Username.setPreferredSize(new java.awt.Dimension(65, 40));
         Username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UsernameActionPerformed(evt);
             }
         });
-        getContentPane().add(Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 300, 40));
+        getContentPane().add(Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 290, 40));
 
-        AdminLogin.setBackground(new java.awt.Color(255, 255, 255));
-        AdminLogin.setForeground(new java.awt.Color(0, 0, 0));
-        AdminLogin.setText("Login as Admin");
-        AdminLogin.setPreferredSize(new java.awt.Dimension(132, 23));
-        AdminLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AdminLoginActionPerformed(evt);
-            }
-        });
-        getContentPane().add(AdminLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, -1, -1));
-
-        UserLogin.setBackground(new java.awt.Color(255, 255, 255));
-        UserLogin.setForeground(new java.awt.Color(0, 0, 0));
-        UserLogin.setText("Login as User");
+        UserLogin.setText("Login");
         UserLogin.setPreferredSize(new java.awt.Dimension(132, 23));
         UserLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UserLoginActionPerformed(evt);
             }
         });
-        getContentPane().add(UserLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 220, -1, -1));
+        getContentPane().add(UserLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 250, 160, 30));
 
         LoginPage.setBackground(new java.awt.Color(0, 204, 204));
         LoginPage.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        LoginPage.setForeground(new java.awt.Color(0, 0, 0));
         LoginPage.setText("Login Page");
         getContentPane().add(LoginPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 130, -1));
 
         Message2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Message2.setForeground(new java.awt.Color(0, 0, 0));
         Message2.setText("Password");
         Message2.setPreferredSize(new java.awt.Dimension(65, 32));
         getContentPane().add(Message2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 80, 30));
 
-        Exit.setBackground(new java.awt.Color(255, 255, 255));
-        Exit.setForeground(new java.awt.Color(0, 0, 0));
         Exit.setText("Cancel");
         Exit.setPreferredSize(new java.awt.Dimension(132, 23));
         Exit.addActionListener(new java.awt.event.ActionListener() {
@@ -103,15 +91,13 @@ public class Login extends javax.swing.JFrame {
         });
         getContentPane().add(Exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 350, -1, -1));
 
-        Password.setBackground(new java.awt.Color(255, 255, 255));
-        Password.setForeground(new java.awt.Color(0, 0, 0));
         Password.setPreferredSize(new java.awt.Dimension(65, 40));
         Password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PasswordActionPerformed(evt);
             }
         });
-        getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 300, 40));
+        getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 290, 40));
 
         Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/CarBackground.png"))); // NOI18N
         getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 400));
@@ -119,24 +105,7 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AdminLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminLoginActionPerformed
-        // TODO add your handling code here:
-        //Open to AdminPage
-        
-        if(Username.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Please Fill out the Username");
-    }//GEN-LAST:event_AdminLoginActionPerformed
-    else if (Password.getText().equals("")){
-        JOptionPane.showMessageDialog(null, "Please Fill out the Password");
-    }
-    else if (Username.getText().contains("Admin")&& Password.getText().contains("12345678")){
-        JOptionPane.showMessageDialog(null, "Welcome Admin User Login");
-          AdminPage AdminPage = new AdminPage();
-        AdminPage.show();
-        
-        dispose(); //close the current Frame
-    }
-    }
+    
     
     
     private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
@@ -162,9 +131,28 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please Fill out the Password");
         }
         else{
-            JOptionPane.showMessageDialog(null, "Login SucessFul");
+            String username = Username.getText();
+            String password = new String(Password.getPassword());
+            
+            UserDAO dao = new UserDAO();
+            User user = dao.getUserByUsernameAndPassword(username, password);
+
+            if (user != null) {
+                 JOptionPane.showMessageDialog(null, "Login success: " + user.getUsername());
+                 
+                 if(user.getRole().toLowerCase().equals("staff")){
+                     StaffDashboard staffDashboard = new StaffDashboard(user);
+                     staffDashboard.setVisible(true);
+                 }else if(user.getRole().toLowerCase().equals("admin")){
+                     AdminPage adminPage =  new AdminPage();
+                     adminPage.setVisible(true);
+                 }else{
+                      JOptionPane.showMessageDialog(null, "Role not found");
+                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Login Failed");
+            }
         }
-        
     }//GEN-LAST:event_UserLoginActionPerformed
 
     /**
@@ -193,7 +181,6 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AdminLogin;
     private javax.swing.JLabel Background;
     private javax.swing.JButton Exit;
     private javax.swing.JLabel LoginPage;

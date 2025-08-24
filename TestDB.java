@@ -12,7 +12,7 @@ public class TestDB {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/CarRentalSystem", "root", "Mandatary#123");
+                "jdbc:mysql://localhost:3306/CarRentalSystem", "root", "sa123");
             System.out.println("✅ Database Connected!");
             con.close();
         } catch (Exception e) {
