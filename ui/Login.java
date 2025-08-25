@@ -140,12 +140,12 @@ public class Login extends javax.swing.JFrame {
             if (user != null) {
                  JOptionPane.showMessageDialog(null, "Login success: " + user.getUsername());
                  
-                 if(user.getRole().toLowerCase().equals("staff")){
-                     StaffDashboard staffDashboard = new StaffDashboard(user);
+                 if(user.getRole().toLowerCase().equals("staff") || user.getRole().toLowerCase().equals("admin")){
+                     Dashboard staffDashboard = new Dashboard(user);
                      staffDashboard.setVisible(true);
-                 }else if(user.getRole().toLowerCase().equals("admin")){
+                /* }else if(user.getRole().toLowerCase().equals("admin")){
                      AdminPage adminPage =  new AdminPage();
-                     adminPage.setVisible(true);
+                     adminPage.setVisible(true);*/
                  }else{
                       JOptionPane.showMessageDialog(null, "Role not found");
                  }
