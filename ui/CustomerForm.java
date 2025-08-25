@@ -72,14 +72,12 @@ public class CustomerForm extends JPanel {
             customer.setContactNumber(txtContact.getText());
             customer.setEmail(txtEmail.getText());
             customer.setLicenseNumber(txtLicense.getText());
-            customer.setCreatedBy(1); // TODO: logged-in user
             customerDAO.addCustomer(customer);
         } else { // UPDATE
             customer.setCustomerName(txtName.getText());
             customer.setContactNumber(txtContact.getText());
             customer.setEmail(txtEmail.getText());
             customer.setLicenseNumber(txtLicense.getText());
-            customer.setLastModifiedBy(1); // TODO: logged-in user
             customerDAO.updateCustomer(customer);
         }
 

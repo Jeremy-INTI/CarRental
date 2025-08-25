@@ -8,7 +8,6 @@ package carrental.model;
  *
  * @author Janice
  */
-import java.sql.Timestamp;
 
 public class Customer {
     // === Private Properties ===
@@ -17,28 +16,18 @@ public class Customer {
     private String contactNumber;
     private String email;
     private String licenseNumber;
-    private Integer createdBy;          // can be null
-    private Timestamp createdAt;        // SQL TIMESTAMP
-    private Integer lastModifiedBy;     // can be null
-    private Timestamp lastModifiedAt;   // SQL TIMESTAMP
 
     // === Constructors ===
     public Customer() {
         // Empty constructor
     }
 
-    public Customer(int customerID, String customerName, String contactNumber, String email,
-                    String licenseNumber, Integer createdBy, Timestamp createdAt,
-                    Integer lastModifiedBy, Timestamp lastModifiedAt) {
+    public Customer(int customerID, String customerName, String contactNumber, String email, String licenseNumber) {
         this.customerID = customerID;
         this.customerName = customerName;
         this.contactNumber = contactNumber;
         this.email = email;
         this.licenseNumber = licenseNumber;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.lastModifiedBy = lastModifiedBy;
-        this.lastModifiedAt = lastModifiedAt;
     }
 
     // === Getters & Setters ===
@@ -80,37 +69,5 @@ public class Customer {
 
     public void setLicenseNumber(String licenseNumber) {
         this.licenseNumber = licenseNumber;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Integer getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(Integer lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Timestamp getLastModifiedAt() {
-        return lastModifiedAt;
-    }
-
-    public void setLastModifiedAt(Timestamp lastModifiedAt) {
-        this.lastModifiedAt = lastModifiedAt;
     }
 }

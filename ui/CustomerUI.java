@@ -54,9 +54,12 @@ public class CustomerUI extends JPanel {
         JButton btnAdd = new JButton("Add");
         JButton btnUpdate = new JButton("Update");
         JButton btnDelete = new JButton("Delete");
+        JButton btnViewHistory = new JButton("View Rental History");
+
         btnPanel.add(btnAdd);
         btnPanel.add(btnUpdate);
         btnPanel.add(btnDelete);
+        btnPanel.add(btnViewHistory);
         add(btnPanel, BorderLayout.SOUTH);
 
         // Load customers
@@ -75,6 +78,7 @@ public class CustomerUI extends JPanel {
                 JOptionPane.showMessageDialog(this, "Select a customer to update.");
             }
         });
+        
         btnDelete.addActionListener(e -> {
             int row = tblCustomers.getSelectedRow();
             if (row >= 0) {
@@ -88,6 +92,23 @@ public class CustomerUI extends JPanel {
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Select a customer to delete.");
+            }
+        });
+        
+        btnViewHistory.addActionListener(e -> {
+            int row = tblCustomers.getSelectedRow();
+            if (row >= 0) {
+                int customerId = (int) tableModel.getValueAt(row, 0);
+                Customer customer = customerDAO.getCustomerById(customerId);
+
+                // Open rental history UI
+                JFrame frame = new JFrame("Rental History - " + customer.getCustomerName());
+                frame.setContentPane(new RentalHistoryUI(customer)); // You create this panel
+                frame.setSize(500, 400);
+                frame.setLocationRelativeTo(this);
+                frame.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Select a customer to view rental history.");
             }
         });
     }
