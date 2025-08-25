@@ -68,56 +68,39 @@ public class StaffDashboard extends JFrame {
         add(contentPanel, BorderLayout.CENTER); // Content right
     }
 
-    private void loadModulesForUser(User user) {
-        RolePermissionDAO dao = new RolePermissionDAO();
-        List<RolePermission> permissions = dao.getPermissionsByRole(user.getRole());
+   private void loadModulesForUser(User user) {
+    String role = user.getRole();
 
-        for (RolePermission perm : permissions) {
-            if (perm.isCanRead()) {
-                JButton btn = new JButton(perm.getModuleName());
-                btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-                btn.setFocusPainted(false);
-                btn.setBackground(new Color(178, 190, 195));
+    // Admin can see ALL modules
+    if ("Admin".equalsIgnoreCase(role)) {
+        addModuleButton("Customers", new CustomerUI());
+        addModuleButton("Users", new JPanel(new BorderLayout()) {{
+            add(new JLabel("Users Management Screen", SwingConstants.CENTER));
+        }});
+        addModuleButton("Cars", new JPanel(new BorderLayout()) {{
+            add(new JLabel("Cars Management Screen", SwingConstants.CENTER));
+        }});
+        addModuleButton("Rentals", new JPanel(new BorderLayout()) {{
+            add(new JLabel("Rentals Management Screen", SwingConstants.CENTER));
+        }});
+        addModuleButton("Reports", new JPanel(new BorderLayout()) {{
+            add(new JLabel("Reports Screen", SwingConstants.CENTER));
+        }});
+        addModuleButton("SystemLogs", new JPanel(new BorderLayout()) {{
+            add(new JLabel("System Logs Screen", SwingConstants.CENTER));
+        }});
 
-                // Load module panels dynamically
-                btn.addActionListener(e -> showModule(perm.getModuleName()));
-
-                menuPanel.add(btn);
-
-                // Preload dummy panels for now (you can replace with real UIs)
-                switch (perm.getModuleName()) {
-                    case "Customers":
-                        contentPanel.add(new CustomerUI(), "Customers");
-                        break;
-                    case "Users":
-                        contentPanel.add(new JPanel(new BorderLayout()) {{
-                            add(new JLabel("Users Management Screen", SwingConstants.CENTER));
-                        }}, "Users");
-                        break;
-                    case "Cars":
-                        contentPanel.add(new JPanel(new BorderLayout()) {{
-                            add(new JLabel("Cars Management Screen", SwingConstants.CENTER));
-                        }}, "Cars");
-                        break;
-                    case "Rentals":
-                        contentPanel.add(new JPanel(new BorderLayout()) {{
-                            add(new JLabel("Rentals Management Screen", SwingConstants.CENTER));
-                        }}, "Rentals");
-                        break;
-                    case "Reports":
-                        contentPanel.add(new JPanel(new BorderLayout()) {{
-                            add(new JLabel("Reports Screen", SwingConstants.CENTER));
-                        }}, "Reports");
-                        break;
-                    case "SystemLogs":
-                        contentPanel.add(new JPanel(new BorderLayout()) {{
-                            add(new JLabel("System Logs Screen", SwingConstants.CENTER));
-                        }}, "SystemLogs");
-                        break;
-                }
-            }
-        }
+    // Staff can see only limited modules
+    } else if ("Staff".equalsIgnoreCase(role)) {
+        addModuleButton("Customers", new CustomerUI());
+        addModuleButton("Cars", new JPanel(new BorderLayout()) {{
+            add(new JLabel("Cars Management Screen", SwingConstants.CENTER));
+        }});
+        addModuleButton("Rentals", new JPanel(new BorderLayout()) {{
+            add(new JLabel("Rentals Management Screen", SwingConstants.CENTER));
+        }});
     }
+}
 
     // Switch to the selected module
     private void showModule(String moduleName) {
@@ -125,13 +108,15 @@ public class StaffDashboard extends JFrame {
     }
 
     // Run for testing
-    public static void main(String[] args) {
-        User dummyUser = new User();
-        dummyUser.setUsername("Janice");
-        dummyUser.setRole("Admin");
+    private void addModuleButton(String moduleName, JPanel panel) {
+    JButton btn = new JButton(moduleName);
+    btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+    btn.setFocusPainted(false);
+    btn.setBackground(new Color(178, 190, 195));
 
-        SwingUtilities.invokeLater(() -> {
-            new StaffDashboard(dummyUser).setVisible(true);
-        });
-    }
+    btn.addActionListener(e -> showModule(moduleName));
+    menuPanel.add(btn);
+
+    contentPanel.add(panel, moduleName);
+}
 }
