@@ -6,14 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class StaffDashboard extends JFrame {
+public class Dashboard extends JFrame {
     private JLabel lblUsername;
     private JLabel lblRole;
     private JPanel menuPanel;      // Left side menu
     private JPanel contentPanel;   // Right side dynamic content area
     private CardLayout cardLayout; // For swapping screens
 
-    public StaffDashboard(User user) {
+    public Dashboard(User user) {
         // Frame setup
         setTitle("Car Rental System - Dashboard");
         setSize(1000, 600);
