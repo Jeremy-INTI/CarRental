@@ -16,20 +16,14 @@ import java.util.List;
 public class CustomerDAO {
     // === INSERT ===
     public boolean addCustomer(Customer customer) {
-        String sql = "INSERT INTO Customers (CustomerName, ContactNumber, Email, LicenseNumber, CreatedBy) " +
-                     "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Customers (CustomerName, ContactNumber, Email, LicenseNumber) " +
+                     "VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, customer.getCustomerName());
             stmt.setString(2, customer.getContactNumber());
             stmt.setString(3, customer.getEmail());
             stmt.setString(4, customer.getLicenseNumber());
-            
-            if (customer.getCreatedBy() != null) {
-                stmt.setInt(5, customer.getCreatedBy());
-            } else {
-                stmt.setNull(5, Types.INTEGER);
-            }
             
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -40,7 +34,7 @@ public class CustomerDAO {
 
     // === UPDATE ===
     public boolean updateCustomer(Customer customer) {
-        String sql = "UPDATE Customers SET CustomerName=?, ContactNumber=?, Email=?, LicenseNumber=?, LastModifiedBy=? " +
+        String sql = "UPDATE Customers SET CustomerName=?, ContactNumber=?, Email=?, LicenseNumber=? " +
                      "WHERE CustomerID=?";
             try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -48,14 +42,8 @@ public class CustomerDAO {
             stmt.setString(2, customer.getContactNumber());
             stmt.setString(3, customer.getEmail());
             stmt.setString(4, customer.getLicenseNumber());
+            stmt.setInt(5, customer.getCustomerID());
             
-            if (customer.getLastModifiedBy() != null) {
-                stmt.setInt(5, customer.getLastModifiedBy());
-            } else {
-                stmt.setNull(5, Types.INTEGER);
-            }
-            
-            stmt.setInt(6, customer.getCustomerID());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,10 +104,6 @@ public class CustomerDAO {
         c.setContactNumber(rs.getString("ContactNumber"));
         c.setEmail(rs.getString("Email"));
         c.setLicenseNumber(rs.getString("LicenseNumber"));
-        c.setCreatedBy((Integer) rs.getObject("CreatedBy"));
-        c.setCreatedAt(rs.getTimestamp("CreatedAt"));
-        c.setLastModifiedBy((Integer) rs.getObject("LastModifiedBy"));
-        c.setLastModifiedAt(rs.getTimestamp("LastModifiedAt"));
         return c;
     }
 }
